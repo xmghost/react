@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>点赞</title>
+</head>
+<body>
+  <div class="wrapper" id="wrap1">
+
+  </div>
+  <div class="wrapper" id="wrap2" style="margin-top: 100px;">
+
+  </div>
+  <script>
+  // const button = document.querySelector('.like-btn');
+  // const buttonText = button.querySelector('.like-text');
+  // let isLiked = false
+  // button.addEventListener('click', () => {
+  //   isLiked = !isLiked;
+  //   if(isLiked) {
+  //     buttonText.innerHTML = '取消'
+  //   } else {
+  //     buttonText.innerHTML = '点赞'
+  //   }
+  // }, false);
+
+  const createDOMFromString = (domString) => {
+    const div = document.createElement('div')
+    div.innerHTML = domString
+    return div
+  }
+  class LikeButton {
+    constructor() {
+      this.state = {
+        isLiked: false,
+        count: 11
+      }
+    }
+    changeLikeText() {
+      const likeText = this.el.querySelector('.like-text')
+      const countText = this.el.querySelector('.like-count')
+      this.state.isLiked = !this.state.isLiked
+      if(this.state.isLiked) {
+        likeText.innerHTML = '取消';
+        countText.innerHTML = ++this.state.count;
+      } else {
+        likeText.innerHTML = '点赞';
+        countText.innerHTML = --this.state.count;
+      }
+      likeText.innerHTML = this.state.isLiked?'取消':'点赞'
+    }
+    render() {
+      this.el = createDOMFromString(
+       `
+      <button id="like-btn">
+        <span class="like-text">赞</span>
+        <span>(图片)</span>
+        <span class="like-count">${this.state.count}</span>
+      </button>
+      `)
+      this.el.addEventListener('click', this.changeLikeText.bind(this), false)
+      return this.el
+    }
+  }
+  const wrap1 = document.getElementById('wrap1');
+  const LikeButton1 = new LikeButton();
+  wrap1.appendChild(LikeButton1.render())
+
+  const wrap2 = document.getElementById('wrap2');
+  const LikeButton2 = new LikeButton();
+  wrap2.appendChild(LikeButton2.render())
+  </script>
+</body>
+</html>
